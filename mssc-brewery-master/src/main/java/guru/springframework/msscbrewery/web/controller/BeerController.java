@@ -24,6 +24,7 @@ public class BeerController {
         this.beerService = beerService;
     }
 
+    // for example 573f2ac2-ad54-4ce2-b3f8-f96b17c3fe22
     @GetMapping({"/{beerId}"})
     public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId){
 
