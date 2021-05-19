@@ -34,11 +34,11 @@ public class BeerController {
     public ResponseEntity handlePost(@RequestBody BeerDto beerDto) {
         BeerDto savedDto = beerService.saveNewBeer(beerDto);
 
-        //HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         //todo add hostname to url
-        //headers.add("Location", "/api/v1/beer/" + savedDto.getId().toString());
+        headers.add("Location", "/api/v1/beer/" + savedDto.getId().toString());
 
-        return new ResponseEntity<BeerDto>(savedDto, HttpStatus.CREATED);
+        return new ResponseEntity<BeerDto>(headers, HttpStatus.CREATED);
     }
 
     @PutMapping({"/{beerId}"})
