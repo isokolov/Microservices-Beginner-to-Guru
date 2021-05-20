@@ -12,7 +12,6 @@ import java.util.UUID;
 /**
  * Created by jt on 2019-04-20.
  */
-@Deprecated
 @RequestMapping("/api/v1/beer")
 @RestController
 public class BeerController {
@@ -23,36 +22,30 @@ public class BeerController {
         this.beerService = beerService;
     }
 
-    // for example 573f2ac2-ad54-4ce2-b3f8-f96b17c3fe22
     @GetMapping({"/{beerId}"})
     public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId){
 
         return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
     }
 
-    @PostMapping()
-    public ResponseEntity handlePost(@RequestBody BeerDto beerDto) {
+    @PostMapping // POST - create new beer
+    public ResponseEntity handlePost(@RequestBody BeerDto beerDto){
+
         BeerDto savedDto = beerService.saveNewBeer(beerDto);
 
         HttpHeaders headers = new HttpHeaders();
         //todo add hostname to url
         headers.add("Location", "/api/v1/beer/" + savedDto.getId().toString());
 
-        return new ResponseEntity<BeerDto>(headers, HttpStatus.CREATED);
+        return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
     @PutMapping({"/{beerId}"})
-    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, BeerDto beerDto){
+    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beerDto){
 
         beerService.updateBeer(beerId, beerDto);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping({"/{beerId}"})
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBeer(@PathVariable("beerId") UUID beerId){
-        beerService.deleteById(beerId);
     }
 
 }
